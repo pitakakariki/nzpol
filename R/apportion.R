@@ -16,9 +16,9 @@ Hamilton <- function(votes, total) {
     return(alloc)
 }
 
-quotient <- function(votes, total, start) {
+quotient <- function(votes, total, start, f) {
     
-    f <- function(s) 2*s + 1
+    if(missing(f)) f <- function(s) 2*s + 1
 
     if(missing(start)) start <- Hamilton(votes, total)
     alloc <- start
@@ -64,49 +64,12 @@ quotient <- function(votes, total, start) {
     return(alloc)    
 }
 
-quotient.old <- function(votes, total, H=TRUE) {
-    
-    f <- function(s) ifelse(s < 0, 0, 2*s + 1)
-    
-    alloc <- rep(0, length(votes))
-    alloc[1] <- total
-    
-    if(H) alloc <- Hamilton(votes, total)
-    
-    it <- 0
-    
-    Q1 <- Q0 <- NULL
-    
-    test <- function(alloc) {
-        
-        Q0 <<- votes / f(alloc - 1)
-        Q1 <<- votes / f(alloc)
+SainteLague <- Webster <- function(...) quotient(..., f=function(s) 2*s + 1)
 
-    #print(alloc)    
-    #print(Q0)
-    #print(Q1)
-        
-        min(Q0) >= max(Q1)
-    }
-    
-    while(!test(alloc)) {
+mSainteLague <- function(...) quotient(..., f=function(s) ifelse(s==0, 1.4, 2*s + 1))
 
-        it <- it + 1
-        
-        m <- median(c(Q0, Q1))
-        
-        inc <- (Q1 >= m)
-        dec <- (Q0 < m)
+dHondt <- Jefferson <- function(...) quotient(..., f=function(s) s + 1)
 
-        stopifnot(sum(inc)==sum(dec))
-        
-        alloc[inc] <- alloc[inc] + 1
-        alloc[dec] <- alloc[dec] - 1
-    }
+Danish <- function(...) quotient(..., f=function(s) 3*s + 1)
 
-    stopifnot(sum(alloc)==total)
-        
-    attr(alloc, "iterations") <- it
-
-    return(alloc)    
-}
+Imperiali <- function(...) quotient(..., f=function(s) s/2 + 1)

@@ -45,11 +45,8 @@ test_that("Wiseman examples work", {
     )
     
     # Webster and Jefferson
-    
     # i.e. Sainte-Laguë and d'Hondt
 
-    if(exists("SainteLague")) {
-    
     expect_equivalent(
         SainteLague(c(59,26,16,7), 11),    
         c(6, 2, 2, 1)
@@ -60,10 +57,6 @@ test_that("Wiseman examples work", {
         c(2, 1)
     )
 
-    }
-    
-    if(exists("dHondt")) {
-    
     expect_equivalent(
         dHondt(c(59,26,16,7), 11),    
         c(7, 3, 1, 0)
@@ -74,7 +67,23 @@ test_that("Wiseman examples work", {
         c(3, 0)
     )
     
-    }
+    # Danish, Imperiali, modified Sainte-Laguë
+
+    expect_equivalent(
+        Danish(c(59,26,16,7), 11),    
+        c(5, 3, 2, 1)
+    )
+
+    expect_equivalent(
+        Imperiali(c(59,26,16,7), 11),    
+        c(8, 2, 1, 0)
+    )
+
+    expect_equivalent(
+        mSainteLague(c(59,26,16,7), 11),    
+        c(6, 3, 2, 0)
+    )
+
 })
 
 test_that("Additional examples work", {
