@@ -25,6 +25,7 @@ getWikiData <- function(url) {
     return(x)
 }
 
+
 trim <- function(x) {
     
     x <- str_replace_all(x, "\\[(.*?)\\]", "") # remove any Wikipedia footnotes, e.g. [1]
@@ -32,3 +33,5 @@ trim <- function(x) {
     
     return(x)
 }
+
+
