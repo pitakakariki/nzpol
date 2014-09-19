@@ -21,44 +21,47 @@ housePlot <- function(app, square=FALSE) {
     y1 <- 47
     y2 <- 47
     
-    # Side-benches
+    # Side-benches (Win)
     
-    x <- rep(c(x2-r-(3:1)*w, x1+r+(1:3)*w), each=9)
-    y <- rep(seq(w, 9*w, w), times=6)
-    a <- rep(0, 54)
+    x <- rep(c(x1+r+(1:3)*w), each=9)
+    y <- rep(seq(w, 9*w, w), times=3)
+    a <- rep(0, 27)
     
     Z <- rbind(x, y, a)
     
-    # Cross-benches
-    
-    c1 <- arc(5, r)
-    Z <- cbind(Z, c(x1+w, y1+w, 0) + c1)
-    Z <- cbind(Z, c(x2-w, y2+w, 0) + c(-1,1,-1) * c1)
-    
-    c2 <- arc(7, r + w)
-    Z <- cbind(Z, c(x1+w, y1+w, 0) + c2)
-    Z <- cbind(Z, c(x2-w, y2+w, 0) + c(-1,1,-1) * c2)
-    
-    c3 <- arc(10, r + 2*w)
-    Z <- cbind(Z, c(x1+w, y1+w, 0) + c3)
-    Z <- cbind(Z, c(x2-w, y2+w, 0) + c(-1,1,-1) * c3)
-    
-    c4 <- arc(11, r+3*w)[,5:10]
-    Z <- cbind(Z, c(x1+w, y1+w, 0) + c4)
-    Z <- cbind(Z, c(x2-w, y2+w, 0) + c(-1,1,-1) * c4)
-    
-    c5 <- arc(12, r+4*w)[,(7-ex1):11]
-    Z <- cbind(Z, c(x1+w, y1+w, 0) + c5)
-    
-    c6 <- arc(12, r+4*w)[,(7-ex2):11]
-    Z <- cbind(Z, c(x2-w, y2+w, 0) + c(-1,1,-1) * c6)
-    
-    o <- c(28:54, 55:59, 65:71, 79:88, 99:104,
-        111:(115+ex2), (120+ex1+ex2):(116+ex2),
-        110:105, 98:89, 78:72, 64:60, 27:1)
+    # Cross-benches (Win)
 
-    if(!win) o <- c(1:27, 60:64, 72:78, 89:98, 105:110, (116+ex1):(120+ex1+ex2), (115+ex1):111,
-        104:99, 88:79, 71:65, 59:55, 54:28)
+    c1 <- arc(5, r)
+    c2 <- arc(7, r + w)
+    c3 <- arc(10, r + 2*w)
+    c4 <- arc(11, r+3*w)[,5:10]
+    c5l <- arc(12, r+4*w)[,(7-ex1):11]
+    c5w <- arc(12, r+4*w)[,(7-ex2):11]
+
+    Z <- cbind(Z, c(x1+w, y1+w, 0) + c1)
+    Z <- cbind(Z, c(x1+w, y1+w, 0) + c2)
+    Z <- cbind(Z, c(x1+w, y1+w, 0) + c3)
+    Z <- cbind(Z, c(x1+w, y1+w, 0) + c4)
+    Z <- cbind(Z, c(x1+w, y1+w, 0) + c5l)
+
+    # Side-benches (Lose)
+
+    x <- rep(c(x2-r-(1:3)*w), each=9)
+    y <- rep(seq(w, 9*w, w), times=3)
+    a <- rep(0, 27)
+    Z <- cbind(Z, rbind(x,y,a))
+
+    # Cross-bences (Lose)
+    Z <- cbind(Z, c(x2-w, y2+w, 0) + c(-1,1,-1) * c1)
+    Z <- cbind(Z, c(x2-w, y2+w, 0) + c(-1,1,-1) * c2)
+    Z <- cbind(Z, c(x2-w, y2+w, 0) + c(-1,1,-1) * c3)
+    Z <- cbind(Z, c(x2-w, y2+w, 0) + c(-1,1,-1) * c4)
+    Z <- cbind(Z, c(x2-w, y2+w, 0) + c(-1,1,-1) * c5w)
+
+    # Reverse order of losing benches so it flows around the house
+    o <- c(1:(60+ex1),(120+ex1+ex2):(61+ex1))
+
+    if(!win) o <- rev(o)
 
     plotSeats(x=Z[1,o], y=Z[2,o], w=w-1, a=Z[3,o], party=party_rep(app))   
 }
