@@ -138,7 +138,7 @@ if(opt_svg) library(SVGAnnotation, quietly=TRUE)
 ##
 ###
 
-#source("R/getWikipediaData.R")
+source("R/getWikipediaData.R")
 source("R/helper.R")
 source("R/dates.R")
 source("R/format.R")

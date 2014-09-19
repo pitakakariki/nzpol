@@ -35,11 +35,6 @@ getWikiData <- function(url, events=FALSE, dates=TRUE) {
     h <- htmlParse(GET(url))
     X <- readHTMLTable(h, encoding=getEncoding(h), stringsAsFactors=FALSE)[[1]]
 
-    #if(url==urls[4]) X[nrow(X)+1,] <- list(Poll="One News Colmar Brunton", Date="13-17 September 2014",
-    #    National=45, Labour=25
-    #    Green=12, `NZ First`=8, Māori=2, Mana=NA, ACT=1, `United Future`=NA, Conservative=4,
-    #    Internet=NA, `Internet Mana`=2)
-    
     # trim footnotes[1] - they should be either in the first two columns or the header row
     names(X) <- fn_trim(names(X))
     X[["Poll"]] <- fn_trim(X[["Poll"]])
