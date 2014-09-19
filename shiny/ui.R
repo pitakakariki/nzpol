@@ -1,6 +1,9 @@
 source("globals.R")
 
 input_list <- list()
+
+input_list[["Header"]] <- list(column(4), column(4, h6("Votes")), column(2, h6("Seats")), column(2))
+
 for (i in seq_along(party)) {
     
     input_list[[party[i]]] <- list(
