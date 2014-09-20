@@ -3,6 +3,7 @@ library(stringr)
 
 source("apportion.R")
 source("shinyPlot.R")
+source("electorates.R")
 
 party <- c("ACT", "Conservative", "Green", "Labour", "M\u0101ori", "National", "NZ First", "Internet Mana", "United Future")
 vote <- c(0.4, 5.7, 12.5, 24.3, 0.9, 42.8, 9.9, 2.5, 0.5)
