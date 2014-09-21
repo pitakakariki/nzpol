@@ -6,7 +6,7 @@ source("shinyPlot.R")
 source("electorates.R")
 
 party <- c("ACT", "Conservative", "Green", "Labour", "M\u0101ori", "National", "NZ First", "Internet Mana", "United Future")
-vote <- c(0.4, 5.7, 12.5, 24.3, 0.9, 42.8, 9.9, 2.5, 0.5)
+vote <- c(0.69, 4.22, 10.02, 24.69, 1.29, 48.06, 8.85, 1.26, 0.22)
 seat <- c(1,0,0,0,1,0,0,1,1)
 
 
