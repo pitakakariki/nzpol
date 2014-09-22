@@ -2,19 +2,42 @@ source("globals.R")
 
 input_list <- list()
 
-input_list[["Header"]] <- list(column(4), column(4, h6("Votes")), column(2, h6("Seats")), column(2))
+input_list[["Header"]] <- list(column(4), column(3, h6("Votes")), column(2, h6("Electorate", align="right")), column(2, h6("Total", align="right")))
 
 for (i in seq_along(party)) {
     
     input_list[[party[i]]] <- list(
         column(4, h6(party[i], align="right")),
-        column(4, numericInput(str_c("vote", party[i]), '', vote[i], 0, 100, 1)),
-        column(2, numericInput(str_c("seat", party[i]), '', seat[i], 0, 71, 1)),
+        column(3, numericInput(str_c("vote", party[i]), '', vote[i], 0, 100, 1)),
+        column(2, uiOutput(str_c("seat", party[i]))),
         column(2, uiOutput(party[i]))
     )
 }
 
-input_list[["Total"]] <- list(column(10), column(2, uiOutput("Total")))
+electorate_list <- list()
+for (i in levels(elect$Electorate))
+{
+    cand  <- elect[elect$Electorate == i,]
+    names <- list()
+    for (j in seq_along(cand$Party))
+        names[[cand$Party[j]]] <- cand$Party[j]
+    electorate_list[[i]] <- list(
+        column(4, h6(i, align="right")),
+        column(4, selectInput(str_c("electorate", i), '', names, selected=cand$Party[cand$Winner])),
+        column(4, uiOutput(str_c("electorate",i)))
+    )
+}
+
+input_list[["Total"]] <- list(column(7), column(2, uiOutput("Seats")), column(2, uiOutput("Total")))
+
+party_list <- list()
+
+for (i in seq_along(party)) {
+    party_list[[party[i]]] <- list(
+        column(12, uiOutput(str_c("mps", party[i])))
+    )
+}
+
 
 shinyUI(fluidPage(
 
@@ -22,8 +45,12 @@ shinyUI(fluidPage(
 
   fluidRow(
       
-    column(6, wellPanel(lapply(input_list, do.call, what=fluidRow))),
+    column(6, wellPanel(h3("Party vote"), lapply(input_list, do.call, what=fluidRow))),
           
-    column(6, wellPanel(plotOutput("Plot")))
+    column(6, wellPanel(h3("House layout"), plotOutput("Plot")))
+  ),
+  fluidRow(
+    column(6, wellPanel(h3("Electorates"), lapply(electorate_list, do.call, what=fluidRow))),
+    column(6, wellPanel(h3("Members of Parliament"), fluidRow(column(6, uiOutput("LeftMPs")), column(6, uiOutput("RightMPs")))))
   )
 ))
