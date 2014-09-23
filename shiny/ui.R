@@ -15,16 +15,17 @@ for (i in seq_along(party)) {
 }
 
 electorate_list <- list()
-for (i in levels(elect$Electorate))
+for (i in unique(elect$Num))
 {
-    cand  <- elect[elect$Electorate == i,]
+    cand  <- elect[elect$Num == i,]
     names <- list()
+    electorate_name <- cand$Electorate[1]
     for (j in seq_along(cand$Party))
         names[[cand$Party[j]]] <- cand$Party[j]
     electorate_list[[i]] <- list(
-        column(4, h6(i, align="right")),
-        column(4, selectInput(str_c("electorate", i), '', names, selected=cand$Party[cand$Winner])),
-        column(4, uiOutput(str_c("electorate",i)))
+        column(4, h6(electorate_name, align="right")),
+        column(4, selectInput(str_c("electorate", electorate_name), '', names, selected=cand$Party[cand$Winner])),
+        column(4, uiOutput(str_c("electorate",electorate_name)))
     )
 }
 
